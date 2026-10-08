@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexEngine - Advanced Scientific & Engineering Calculator</title>
+  <meta name="description" content="Professional high-precision scientific, engineering, matrix, graphing, and unit conversion calculator built for engineers and scientists.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header / Navigation Bar -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+            <line x1="8" y1="6" x2="16" y2="6"></line>
+            <line x1="16" y1="14" x2="16" y2="18"></line>
+            <path d="M16 10h.01"></path>
+            <path d="M12 10h.01"></path>
+            <path d="M8 10h.01"></path>
+            <path d="M12 14h.01"></path>
+            <path d="M8 14h.01"></path>
+            <path d="M12 18h.01"></path>
+            <path d="M8 18h.01"></path>
+          </svg>
+        </div>
+        <span class="brand-name">APEX<span class="highlight">ENGINE</span></span>
+        <span class="badge">v2.5 PRO</span>
+      </div>
+
+      <nav class="mode-nav" id="modeNav">
+        <button class="nav-btn active" data-tab="calc-mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/></svg>
+          Scientific
+        </button>
+        <button class="nav-btn" data-tab="graph-mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-5 5"/></svg>
+          Grapher 2D
+        </button>
+        <button class="nav-btn" data-tab="matrix-mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h2v8H7"/><path d="M15 8h2v8h-2"/><circle cx="12" cy="12" r="1"/></svg>
+          Matrix & Vector
+        </button>
+        <button class="nav-btn" data-tab="solver-mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/><circle cx="18" cy="17" r="2"/></svg>
+          Equations
+        </button>
+        <button class="nav-btn" data-tab="converter-mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4M7 4L3 8M7 4l4 4M17 8v12M17 20l4-4M17 20l-4-4"/></svg>
+          Unit Converter
+        </button>
+        <button class="nav-btn" data-tab="programmer-mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Programmer Base-N
+        </button>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="soundToggle" title="Toggle Key Sound">
+          <svg id="soundIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        </button>
+        <button class="icon-btn" id="themeToggle" title="Toggle Light/Dark Theme">
+          <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="icon-btn" id="constantsBtn" title="Physical Constants Database">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        </button>
+        <button class="icon-btn" id="historyToggle" title="History & Memory Panel">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- MODE 1: SCIENTIFIC CALCULATOR -->
+      <section class="mode-view active" id="calc-mode">
+        <div class="calculator-card">
+          
+          <!-- Top Display Bar -->
+          <div class="display-container">
+            <div class="status-bar">
+              <div class="status-left">
+                <span class="status-pill active" id="angleModeBtn" title="Click to toggle DEG/RAD/GRAD">DEG</span>
+                <span class="status-pill" id="numFormatBtn" title="Norm / Sci / Eng mode">NORM</span>
+                <span class="status-pill" id="rpnModeBtn" title="Toggle RPN mode">STD</span>
+                <span class="status-pill" id="complexModeBtn" title="Real / Complex number mode">CMPLX</span>
+              </div>
+              <div class="status-right">
+                <span class="memory-indicator" id="memIndicator" style="display:none;">M</span>
+                <span class="eng-prefix" id="engPrefix"></span>
+              </div>
+            </div>
+
+            <!-- Math Input & Live Output Display -->
+            <div class="screen">
+              <div class="history-preview" id="calcHistoryPreview"></div>
+              <div class="expression-line">
+                <input type="text" id="mathInput" autocomplete="off" spellcheck="false" placeholder="Enter expression..." autofocus>
+              </div>
+              <div class="result-line">
+                <span class="equals-sign">=</span>
+                <span class="result-value" id="calcResult">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Control Toolbar -->
+          <div class="calc-toolbar">
+            <div class="quick-mem-bar">
+              <button class="btn-sm btn-mem" data-action="mc">MC</button>
+              <button class="btn-sm btn-mem" data-action="mr">MR</button>
+              <button class="btn-sm btn-mem" data-action="m-add">M+</button>
+              <button class="btn-sm btn-mem" data-action="m-sub">M-</button>
+              <button class="btn-sm btn-mem" data-action="ms">MS</button>
+              <button class="btn-sm btn-mem" data-action="sto">STO</button>
+              <button class="btn-sm btn-mem" data-action="rcl">RCL</button>
+            </div>
+            <div class="shift-bar">
+              <button class="btn-sm btn-toggle" id="shiftBtn">2nd</button>
+              <button class="btn-sm btn-toggle" id="hypBtn">HYP</button>
+              <button class="btn-sm btn-action" id="ansBtn">ANS</button>
+              <button class="btn-sm btn-action" id="engBtn">ENG</button>
+            </div>
+          </div>
+
+          <!-- Keypad Grid -->
+          <div class="keypad" id="scientificKeypad">
+            <!-- Row 1: Advanced Functions -->
+            <button class="key btn-func" data-insert="sin(">sin</button>
+            <button class="key btn-func" data-insert="cos(">cos</button>
+            <button class="key btn-func" data-insert="tan(">tan</button>
+            <button class="key btn-func" data-insert="ln(">ln</button>
+            <button class="key btn-func" data-insert="log(">log</button>
+            <button class="key btn-danger" data-action="all-clear">AC</button>
+            <button class="key btn-warning" data-action="backspace">DEL</button>
+
+            <!-- Row 2: Powers & Roots -->
+            <button class="key btn-func" data-insert="^2">x²</button>
+            <button class="key btn-func" data-insert="^">xʸ</button>
+            <button class="key btn-func" data-insert="sqrt(">√x</button>
+            <button class="key btn-func" data-insert="cbrt(">∛x</button>
+            <button class="key btn-func" data-insert="1/(">1/x</button>
+            <button class="key btn-op" data-insert="(">(</button>
+            <button class="key btn-op" data-insert=")">)</button>
+
+            <!-- Row 3: Constants & Physics -->
+            <button class="key btn-func" data-insert="pi">π</button>
+            <button class="key btn-func" data-insert="e">e</button>
+            <button class="key btn-func" data-insert="i">i (j)</button>
+            <button class="key btn-func" data-insert="abs(">|x|</button>
+            <button class="key btn-func" data-insert="fact(">n!</button>
+            <button class="key btn-op" data-insert="^">yˣ</button>
+            <button class="key btn-op" data-insert="/">÷</button>
+
+            <!-- Row 4: Calculus & Stats -->
+            <button class="key btn-func" data-insert="nCr(">nCr</button>
+            <button class="key btn-func" data-insert="nPr(">nPr</button>
+            <button class="key btn-num" data-insert="7">7</button>
+            <button class="key btn-num" data-insert="8">8</button>
+            <button class="key btn-num" data-insert="9">9</button>
+            <button class="key btn-op" data-insert="*">×</button>
+            <button class="key btn-func" data-insert="derivative(">d/dx</button>
+
+            <!-- Row 5: Numerical Row -->
+            <button class="key btn-func" data-insert="integral(">∫dx</button>
+            <button class="key btn-func" data-insert="%">%</button>
+            <button class="key btn-num" data-insert="4">4</button>
+            <button class="key btn-num" data-insert="5">5</button>
+            <button class="key btn-num" data-insert="6">6</button>
+            <button class="key btn-op" data-insert="-">−</button>
+            <button class="key btn-func" data-insert="EE">EE</button>
+
+            <!-- Row 6: Numerical Row 2 -->
+            <button class="key btn-func" data-insert="pol(">Pol</button>
+            <button class="key btn-func" data-insert="rec(">Rec</button>
+            <button class="key btn-num" data-insert="1">1</button>
+            <button class="key btn-num" data-insert="2">2</button>
+            <button class="key btn-num" data-insert="3">3</button>
+            <button class="key btn-op" data-insert="+">+</button>
+            <button class="key btn-func" data-insert="10^(">10ˣ</button>
+
+            <!-- Row 7: Zero & Equal -->
+            <button class="key btn-func" data-insert="rnd(">Rnd</button>
+            <button class="key btn-num" data-insert="0">0</button>
+            <button class="key btn-num" data-insert=".">.</button>
+            <button class="key btn-num" data-insert="*10^">×10ⁿ</button>
+            <button class="key btn-func" data-action="negate">(−)</button>
+            <button class="key btn-equals span-2" data-action="calculate">=</button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- MODE 2: 2D GRAPHING CALCULATOR -->
+      <section class="mode-view" id="graph-mode">
+        <div class="grapher-layout">
+          <div class="grapher-sidebar">
+            <h3 class="panel-title">Function Plotter</h3>
+            <div class="function-list" id="functionList">
+              <div class="function-row" data-id="1">
+                <span class="color-badge" style="background:#00e5ff;"></span>
+                <span class="fn-label">y₁ =</span>
+                <input type="text" class="fn-input" value="sin(x)" placeholder="e.g. sin(x), x^2 - 4">
+                <button class="btn-icon remove-fn-btn">✕</button>
+              </div>
+              <div class="function-row" data-id="2">
+                <span class="color-badge" style="background:#ff4081;"></span>
+                <span class="fn-label">y₂ =</span>
+                <input type="text" class="fn-input" value="cos(x)" placeholder="e.g. 0.5*x">
+                <button class="btn-icon remove-fn-btn">✕</button>
+              </div>
+            </div>
+            <button class="btn-secondary w-100" id="addFunctionBtn">+ Add Function</button>
+
+            <div class="graph-settings">
+              <h4>View Window</h4>
+              <div class="grid-2">
+                <label>X Min: <input type="number" id="xMin" value="-10" step="1"></label>
+                <label>X Max: <input type="number" id="xMax" value="10" step="1"></label>
+                <label>Y Min: <input type="number" id="yMin" value="-6" step="1"></label>
+                <label>Y Max: <input type="number" id="yMax" value="6" step="1"></label>
+              </div>
+              <div class="btn-group mt-2">
+                <button class="btn-sm btn-outline" id="resetGraphBtn">Reset Zoom</button>
+                <button class="btn-sm btn-outline" id="findRootsBtn">Find Roots</button>
+              </div>
+            </div>
+
+            <div class="graph-analysis" id="graphAnalysisBox">
+              <h4>Graph Analysis</h4>
+              <div class="analysis-output" id="analysisOutput">Move cursor over graph to trace values (x, y).</div>
+            </div>
+          </div>
+
+          <div class="grapher-canvas-container">
+            <canvas id="graphCanvas"></canvas>
+            <div class="canvas-controls">
+              <button class="canvas-btn" id="zoomInBtn" title="Zoom In">+</button>
+              <button class="canvas-btn" id="zoomOutBtn" title="Zoom Out">−</button>
+              <button class="canvas-btn" id="fitGraphBtn" title="Auto Fit">⛶</button>
+            </div>
+            <div class="graph-coords" id="graphCoords">X: 0.00 | Y: 0.00</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MODE 3: MATRIX & VECTOR CALCULATOR -->
+      <section class="mode-view" id="matrix-mode">
+        <div class="matrix-layout">
+          <div class="matrix-controls-panel">
+            <h3>Matrix & Vector Operations</h3>
+            <div class="matrix-selector">
+              <label>Select Target Matrix:
+                <select id="activeMatrixSelect">
+                  <option value="A">Matrix A</option>
+                  <option value="B">Matrix B</option>
+                  <option value="C">Matrix C</option>
+                </select>
+              </label>
+              <div class="dim-selector mt-2">
+                <span>Dimensions:</span>
+                <select id="matrixRows">
+                  <option value="2">2 Rows</option>
+                  <option value="3" selected>3 Rows</option>
+                  <option value="4">4 Rows</option>
+                </select>
+                <span>×</span>
+                <select id="matrixCols">
+                  <option value="2">2 Cols</option>
+                  <option value="3" selected>3 Cols</option>
+                  <option value="4">4 Cols</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="matrix-grid-input" id="matrixGridInput">
+              <!-- Dynamically populated matrix cells -->
+            </div>
+
+            <div class="matrix-actions-grid">
+              <button class="btn-action-sm" id="matDetBtn">Determinant |A|</button>
+              <button class="btn-action-sm" id="matInvBtn">Inverse A⁻¹</button>
+              <button class="btn-action-sm" id="matTransBtn">Transpose Aᵀ</button>
+              <button class="btn-action-sm" id="matRrefBtn">RREF (Echelon)</button>
+              <button class="btn-action-sm" id="matMulBtn">A × B</button>
+              <button class="btn-action-sm" id="matAddBtn">A + B</button>
+              <button class="btn-action-sm" id="matSubBtn">A − B</button>
+              <button class="btn-action-sm" id="vecDotBtn">Vector A · B</button>
+              <button class="btn-action-sm" id="vecCrossBtn">Vector A × B</button>
+              <button class="btn-action-sm" id="vecMagBtn">Magnitude |A|</button>
+            </div>
+          </div>
+
+          <div class="matrix-result-panel">
+            <h3>Result & Step Analysis</h3>
+            <div class="matrix-result-display" id="matrixResultDisplay">
+              <div class="empty-state">Select a matrix operation to calculate.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MODE 4: EQUATION SOLVER -->
+      <section class="mode-view" id="solver-mode">
+        <div class="solver-layout">
+          <div class="solver-sidebar">
+            <h3>Equation Type</h3>
+            <div class="solver-type-selector">
+              <button class="solver-tab-btn active" data-type="linear2">2x2 Linear System</button>
+              <button class="solver-tab-btn" data-type="linear3">3x3 Linear System</button>
+              <button class="solver-tab-btn" data-type="quad">Quadratic (ax² + bx + c = 0)</button>
+              <button class="solver-tab-btn" data-type="cubic">Cubic (ax³ + bx² + cx + d = 0)</button>
+              <button class="solver-tab-btn" data-type="newton">Numerical Root Finder</button>
+            </div>
+          </div>
+
+          <div class="solver-content">
+            <div class="solver-form-card" id="solverFormCard">
+              <!-- Dynamically generated form inputs for equations -->
+            </div>
+
+            <div class="solver-result-card" id="solverResultCard">
+              <h4>Solution & Roots</h4>
+              <div id="solverOutput" class="solver-output-content">
+                Fill coefficients above and click <strong>Solve Equation</strong>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MODE 5: ENGINEERING UNIT CONVERTER -->
+      <section class="mode-view" id="converter-mode">
+        <div class="converter-card">
+          <h3>Engineering Unit Converter</h3>
+          <div class="converter-grid">
+            <div class="conv-group">
+              <label for="convCategory">Category:</label>
+              <select id="convCategory" class="styled-select">
+                <option value="length">Length & Distance</option>
+                <option value="mass">Mass & Weight</option>
+                <option value="force">Force & Weight</option>
+                <option value="pressure">Pressure & Stress</option>
+                <option value="energy">Energy & Work</option>
+                <option value="power">Power</option>
+                <option value="temperature">Temperature</option>
+                <option value="elec_r">Electrical Resistance</option>
+                <option value="elec_c">Electrical Capacitance</option>
+                <option value="elec_v">Voltage</option>
+                <option value="speed">Velocity / Speed</option>
+                <option value="data">Digital Storage</option>
+              </select>
+            </div>
+
+            <div class="conv-row">
+              <div class="conv-box">
+                <label>From:</label>
+                <input type="number" id="convFromVal" value="1" step="any">
+                <select id="convFromUnit" class="styled-select"></select>
+              </div>
+              <div class="conv-swap-btn" id="convSwapBtn">⇄</div>
+              <div class="conv-box">
+                <label>To:</label>
+                <input type="number" id="convToVal" readonly class="result-input">
+                <select id="convToUnit" class="styled-select"></select>
+              </div>
+            </div>
+
+            <div class="conv-formula-box" id="convFormulaBox">
+              Direct Conversion Factor: <span id="convFactorDisplay">1</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MODE 6: PROGRAMMER BASE-N CALCULATOR -->
+      <section class="mode-view" id="programmer-mode">
+        <div class="programmer-card">
+          <h3>Programmer & Bitwise Calculator</h3>
+          
+          <div class="base-display-grid">
+            <div class="base-row active" data-base="DEC">
+              <span class="base-label">HEX</span>
+              <span class="base-val" id="hexVal">0x0</span>
+            </div>
+            <div class="base-row" data-base="DEC">
+              <span class="base-label">DEC</span>
+              <span class="base-val" id="decVal">0</span>
+            </div>
+            <div class="base-row" data-base="OCT">
+              <span class="base-label">OCT</span>
+              <span class="base-val" id="octVal">0</span>
+            </div>
+            <div class="base-row" data-base="BIN">
+              <span class="base-label">BIN</span>
+              <span class="base-val" id="binVal">0000 0000 0000 0000</span>
+            </div>
+          </div>
+
+          <div class="bit-grid" id="bitGrid">
+            <!-- Interactive 32-bit toggle grid -->
+          </div>
+
+          <div class="programmer-keypad">
+            <button class="key btn-func" data-prog="AND">AND</button>
+            <button class="key btn-func" data-prog="OR">OR</button>
+            <button class="key btn-func" data-prog="XOR">XOR</button>
+            <button class="key btn-func" data-prog="NOT">NOT</button>
+            <button class="key btn-func" data-prog="SHL">LSH &lt;&lt;</button>
+            <button class="key btn-func" data-prog="SHR">RSH &gt;&gt;</button>
+
+            <button class="key btn-num hex-key" data-insert="A">A</button>
+            <button class="key btn-num hex-key" data-insert="B">B</button>
+            <button class="key btn-num" data-insert="7">7</button>
+            <button class="key btn-num" data-insert="8">8</button>
+            <button class="key btn-num" data-insert="9">9</button>
+            <button class="key btn-warning" id="progClr">AC</button>
+
+            <button class="key btn-num hex-key" data-insert="C">C</button>
+            <button class="key btn-num hex-key" data-insert="D">D</button>
+            <button class="key btn-num" data-insert="4">4</button>
+            <button class="key btn-num" data-insert="5">5</button>
+            <button class="key btn-num" data-insert="6">6</button>
+            <button class="key btn-warning" id="progDel">DEL</button>
+
+            <button class="key btn-num hex-key" data-insert="E">E</button>
+            <button class="key btn-num hex-key" data-insert="F">F</button>
+            <button class="key btn-num" data-insert="1">1</button>
+            <button class="key btn-num" data-insert="2">2</button>
+            <button class="key btn-num" data-insert="3">3</button>
+            <button class="key btn-op" data-insert="+">+</button>
+
+            <button class="key btn-func" data-word="32">32-Bit</button>
+            <button class="key btn-num" data-insert="0">0</button>
+            <button class="key btn-op" data-insert="-">−</button>
+            <button class="key btn-op" data-insert="*">×</button>
+            <button class="key btn-equals span-2" id="progEquals">=</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Side History & Memory Drawer -->
+    <aside class="history-drawer" id="historyDrawer">
+      <div class="drawer-header">
+        <h3>Calculation History</h3>
+        <button class="close-drawer-btn" id="closeDrawerBtn">✕</button>
+      </div>
+      <div class="history-tabs">
+        <button class="tab-link active" data-tab="history-list">History</button>
+        <button class="tab-link" data-tab="memory-list">Memory (M)</button>
+        <button class="tab-link" data-tab="variables-list">Vars (A-Z)</button>
+      </div>
+      <div class="drawer-body">
+        <div class="tab-content active" id="history-list">
+          <div class="history-items" id="historyItems">
+            <div class="empty-state">No history recorded yet.</div>
+          </div>
+          <div class="drawer-actions">
+            <button class="btn-sm btn-outline" id="clearHistoryBtn">Clear History</button>
+            <button class="btn-sm btn-outline" id="exportHistoryBtn">Export CSV</button>
+          </div>
+        </div>
+
+        <div class="tab-content" id="memory-list">
+          <div class="memory-value-box">
+            <span>Main Memory (M):</span>
+            <strong id="memValueDisplay">0</strong>
+          </div>
+          <button class="btn-sm btn-outline mt-2" id="clearMemBtn">Clear Memory (MC)</button>
+        </div>
+
+        <div class="tab-content" id="variables-list">
+          <div class="variables-grid" id="variablesGrid">
+            <!-- Variable stores -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Fundamental Physical Constants Modal -->
+    <div class="modal-overlay" id="constantsModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>CODATA Fundamental Physical Constants</h3>
+          <button class="close-modal-btn" id="closeConstantsBtn">✕</button>
+        </div>
+        <div class="modal-search">
+          <input type="text" id="constantSearch" placeholder="Search constants (e.g. speed of light, planck, electron)...">
+        </div>
+        <div class="constants-list" id="constantsList">
+          <!-- Dynamic constants -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/evaluator.js"></script>
+  <script src="js/constants.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/grapher.js"></script>
+  <script src="js/matrix.js"></script>
+  <script src="js/equations.js"></script>
+  <script src="js/converter.js"></script>
+  <script src="js/programmer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
